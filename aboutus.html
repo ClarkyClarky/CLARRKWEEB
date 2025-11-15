@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - TECHPARTS HUB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpg" href="image/gus1.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+
+    <nav class="navbar">
+        <div class="logo"><h1>FOOD HAVEN</h1></div>
+        <ul class="menu">
+            <li><a href="index.html">Home</a></li>
+            
+            <li><a href="shop.html">Shop</a></li>
+            
+            <li><a href="AboutUs.html" class="active">About Us</a></li>
+            <li><a href="myaccount.html">My Account</a></li>
+            <li>
+                <a href="cart.html">
+                    <i class="fa-solid fa-cart-shopping" style="font-size: 22px; color: #00d4ff; margin-left: 10px;"></i>
+                </a>
+            </li>
+        </ul>
+        <ul style="display:none;" id="nav-user">
+            <li>
+                <span id="nav-username" style="color:#ddd; margin-left:8px;"></span>
+                <button id="nav-logout" style="margin-left:8px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#ddd; padding:4px 8px; border-radius:4px; cursor:pointer;">Logout</button>
+            </li>
+        </ul>
+        <div class="menu-bnt"><i class="fa fa-bars"></i></div>
+    </nav>
+
+
+    <section class="about-section">
+        <div class="about-container">
+<h1>About RESTU</h1>
+<p>
+    Welcome to <strong>RESTU</strong>, your go-to destination for a delightful dining experience. We specialize in serving delicious and premium dishes crafted with the finest ingredients.
+</p>
+<p>
+    Our mission is to provide a cozy, welcoming environment where food lovers can enjoy exceptional meals, impeccable service, and a memorable dining experience. Whether you're here for a special occasion or a casual meal, we're dedicated to offering you the best.
+</p>
+
+<div class="about-values">
+    <div class="value-card">
+        <i class="fas fa-utensils"></i>
+        <h3>Exquisite Flavors</h3>
+        <p>Our menu is carefully curated with a variety of dishes, from classic comfort food to innovative creations, designed to delight your taste buds.</p>
+    </div>
+    <div class="value-card">
+        <i class="fas fa-seedling"></i>
+        <h3>Fresh Ingredients</h3>
+        <p>We source the freshest local ingredients to prepare every dish with love and attention, ensuring top-notch quality and flavor in every bite.</p>
+    </div>
+    <div class="value-card">
+        <i class="fas fa-heart"></i>
+        <h3>Customer Experience</h3>
+        <p>Our friendly and attentive staff are here to ensure you have an unforgettable dining experience, whether it's your first visit or you're a regular.</p>
+    </div>
+</div>
+
+    </section>
+
+    <footer>
+        <p>Copyright © 2025 <a href="#">FOOD HAVEN</a></p>
+    </footer>
+
+    <script>
+        $(".menu-bnt").click(function (){ 
+            $(".navbar .menu").toggleClass("active");
+            $(".menu-bnt i").toggleClass("active");
+        });
+    </script>
+
+    <script>
+        (function(){
+            function showUser() {
+                // Prefer active session info for display; fall back to stored user
+                let raw = null;
+                try { raw = sessionStorage.getItem('session') || localStorage.getItem('user'); } catch(e) { raw = localStorage.getItem('user'); }
+                const navUser = document.getElementById('nav-user');
+                const navName = document.getElementById('nav-username');
+                const logout = document.getElementById('nav-logout');
+                if (!navUser || !navName || !logout) return;
+                if (raw) {
+                    let user = raw;
+                    try { user = JSON.parse(raw); } catch(e){}
+                    navName.textContent = (user && user.name) ? user.name : 'Account';
+                    navUser.style.display = '';
+                } else {
+                    navUser.style.display = 'none';
+                }
+
+                logout.addEventListener('click', function(){
+                    // Save current cart to user account before logout
+                    try {
+                        const cartRaw = localStorage.getItem('cart');
+                        if (cartRaw) {
+                            const cart = JSON.parse(cartRaw);
+                            const userRaw = localStorage.getItem('user');
+                            if (userRaw) {
+                                const user = JSON.parse(userRaw);
+                                const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+                                const accountIndex = accounts.findIndex(acc => acc.email && acc.email.toLowerCase() === user.email.toLowerCase());
+                                if (accountIndex !== -1) {
+                                    accounts[accountIndex].cart = cart;
+                                    localStorage.setItem('accounts', JSON.stringify(accounts));
+                                }
+                            }
+                        }
+                    } catch (e) {}
+                    
+                    // Remove current user, but keep accounts list for future logins
+                    localStorage.removeItem('user');
+                    try { sessionStorage.removeItem('session'); } catch(e){}
+                    localStorage.removeItem('cart'); // Clear cart on logout
+                    location.reload();
+                });
+            }
+            document.addEventListener('DOMContentLoaded', showUser);
+            showUser();
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+   
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    
+    <style>
+        /* Add to Cart Notification */
+        .cart-notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 350px;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .cart-notification.show {
+            display: flex;
+        }
+        
+        .cart-notification i {
+            font-size: 20px;
+        }
+        
+        .cart-notification-text {
+            flex: 1;
+        }
+        
+        .cart-notification-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cart-notification-close:hover {
+            opacity: 0.8;
+        }
+        
+        .cart-icon-nav {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .cart-badge-nav {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff5252;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+    </style>
+    
+<title>Menu - FOOD HAVEN</title> 
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo"><h1>FOOD HAVEN</h1></div>
+
+    <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html" class="active">Menu</a></li>
+        <li><a href="AboutUs.html">About Us</a></li>
+        <li><a href="myaccount.html">My Account</a></li>
+        <li>
+            <a href="cart.html" class="cart-icon-nav">
+                <i class="fa-solid fa-cart-shopping" style="font-size: 22px; color: #333;"></i>
+                <span class="cart-badge-nav" id="cart-badge-nav" style="display: none;">0</span>
+            </a>
+        </li>
+        <li id="nav-user" style="display:none;">
+            <span id="nav-username" style="color:#ddd; margin-left:8px;"></span>
+            <button id="nav-logout" style="margin-left:8px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#ddd; padding:4px 8px; border-radius:4px; cursor:pointer;">Logout</button>
+        </li>
+    </ul>
+
+    <div class="menu-bnt">
+        <i class="fa fa-bars"></i>
+    </div>
+</nav>
+
+<!-- Add to Cart Notification -->
+<div id="cart-notification" class="cart-notification">
+    <i class="fa-solid fa-check-circle"></i>
+    <span class="cart-notification-text" id="cart-notification-text">Item added to cart!</span>
+    <button class="cart-notification-close" onclick="closeCartNotification()">
+        <i class="fa-solid fa-times"></i>
+    </button>
+</div>
+
+<h1 class="pheading">Premium Restaurant Menu</h1>
+
+<section class="sec">
+    <div class="products">
+
+        <div class="card">
+            <div class="img"><img src="steak.jpg" alt="Steak"></div>
+            <div class="desc">Main Dish</div> 
+            <div class="title">Steak Deluxe</div>
+            <div class="box">
+                <div class="price">₱589</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Seafood Platter.jpg" alt="Seafood"></div>
+            <div class="desc">Main Dish</div> 
+            <div class="title">Seafood Platter</div>
+            <div class="box">
+                <div class="price">₱649</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Truffle Pasta.jpg" alt="Pasta"></div>
+            <div class="desc">Pasta</div> 
+            <div class="title">Truffle Cream Pasta</div>
+            <div class="box">
+                <div class="price">₱459</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Four Cheese Pizza.jpg" alt="Pizza"></div>
+            <div class="desc">Pizza</div> 
+            <div class="title">Four Cheese Pizza</div>
+            <div class="box">
+                <div class="price">₱499</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Chocolate Lava Cake.jpg" alt="Dessert"></div>
+            <div class="desc">Dessert</div> 
+            <div class="title">Chocolate Lava Cake</div>
+            <div class="box">
+                <div class="price">₱249</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Mango Graham Shake.jpg" alt="Drink"></div>
+            <div class="desc">Drink</div> 
+            <div class="title">Mango Graham Shake</div>
+            <div class="box">
+                <div class="price">₱149</div>
+                <button class="bnt">Order</button>
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+        <div class="card">
+            <div class="img"><img src="Iced Coffee.jpg" alt="Coffee"></div>
+            <div class="desc">Beverage</div> 
+            <div class="title">Premium Iced Coffee</div>
+            <div class="box">
+                <div class="price">₱99</div>
+                <button class="bnt">Order</button> 
+                <button class="buy-now">Order Now</button>
+            </div>   
+        </div>
+
+    </div>    
+</section>
+
+    <footer>
+        <p>Copyright © <a href="#">FOOD HAVEN</a></p>
+    </footer>
+
+    <script>
+        // Notification function for add to cart
+        function showAddToCartNotification(itemName, quantity) {
+            const notification = document.getElementById('cart-notification');
+            const notificationText = document.getElementById('cart-notification-text');
+            
+            if (notification && notificationText) {
+                let message = itemName;
+                if (quantity && quantity > 1) {
+                    message += ' (Quantity: ' + quantity + ') added to cart!';
+                } else {
+                    message += ' added to cart!';
+                }
+                notificationText.textContent = message;
+                notification.classList.add('show');
+                
+                // Auto-hide after 3 seconds
+                setTimeout(function() {
+                    closeCartNotification();
+                }, 3000);
+            }
+        }
+        
+        function closeCartNotification() {
+            const notification = document.getElementById('cart-notification');
+            if (notification) {
+                notification.classList.remove('show');
+            }
+        }
+        
+        // Update cart badge in navigation
+        function updateCartBadgeNav() {
+            try {
+                const raw = localStorage.getItem('cart');
+                const cart = raw ? JSON.parse(raw) : [];
+                const badge = document.getElementById('cart-badge-nav');
+                
+                if (badge) {
+                    let totalItems = 0;
+                    cart.forEach(item => {
+                        totalItems += (item.quantity || 1);
+                    });
+                    
+                    if (totalItems > 0) {
+                        badge.textContent = totalItems;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+            } catch (e) {
+                // Ignore errors
+            }
+        }
+        
+        // Update navigation badge on page load
+        updateCartBadgeNav();
+        
+        // Logout functionality
+        (function(){
+            function showUser() {
+                let raw = null;
+                try { raw = sessionStorage.getItem('session') || localStorage.getItem('user'); } catch(e) { raw = localStorage.getItem('user'); }
+                const navUser = document.getElementById('nav-user');
+                const navName = document.getElementById('nav-username');
+                const logout = document.getElementById('nav-logout');
+                if (!navUser || !navName || !logout) return;
+                if (raw) {
+                    let user = raw;
+                    try { user = JSON.parse(raw); } catch(e){}
+                    navName.textContent = (user && user.name) ? user.name : 'Account';
+                    navUser.style.display = '';
+                } else {
+                    navUser.style.display = 'none';
+                }
+
+                logout.addEventListener('click', function(){
+                    // Remove current user, but keep accounts list for future logins
+                    localStorage.removeItem('user');
+                    try { sessionStorage.removeItem('session'); } catch(e){}
+                    localStorage.removeItem('cart'); // Clear cart on logout
+                    location.reload();
+                });
+            }
+            document.addEventListener('DOMContentLoaded', showUser);
+            showUser();
+        })();
+        
+        // Attach add-to-cart handlers that add item to localStorage.cart
+        (function(){
+            function parsePrice(text){
+                if (!text) return 0;
+                const num = text.replace(/[^0-9.]/g, '');
+                return parseFloat(num) || 0;
+            }
+
+            const buttons = document.querySelectorAll('.card .bnt');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e){
+                    // require active session before adding to cart
+                    try {
+                        const sess = sessionStorage.getItem('session');
+                        if (!sess) {
+                            // redirect to login (account) page; after login user returns to shop
+                            window.location.href = 'account.html?next=shop.html';
+                            return;
+                        }
+                    } catch (err) {
+                        // if sessionStorage not available, fall back to requiring localStorage.user
+                        if (!localStorage.getItem('user')) {
+                            window.location.href = 'account.html?next=shop.html';
+                            return;
+                        }
+                    }
+                    // find the card
+                    const card = btn.closest('.card');
+                    if (!card) return;
+                    const titleEl = card.querySelector('.title');
+                    const priceEl = card.querySelector('.price');
+                    const imgEl = card.querySelector('.img img');
+                    const name = titleEl ? titleEl.textContent.trim() : 'Item';
+                    // keep the displayed price string (e.g. "$3,500") so cart UI shows it
+                    const priceStr = priceEl ? priceEl.textContent.trim() : '$0';
+                    const price = priceEl ? parsePrice(priceEl.textContent) : 0;
+                    const img = imgEl ? (imgEl.getAttribute('src') || '') : '';
+
+                    // Add to cart (localStorage) - check if item already exists
+                    try {
+                        const raw = localStorage.getItem('cart');
+                        const cart = raw ? JSON.parse(raw) : [];
+                        
+                        // Check if item with same name already exists
+                        const existingItemIndex = cart.findIndex(item => item.name === name);
+                        
+                        let finalQuantity = 1;
+                        if (existingItemIndex !== -1) {
+                            // Item exists - increment quantity
+                            if (!cart[existingItemIndex].quantity) {
+                                cart[existingItemIndex].quantity = 1;
+                            }
+                            cart[existingItemIndex].quantity += 1;
+                            finalQuantity = cart[existingItemIndex].quantity;
+                        } else {
+                            // New item - add with quantity 1
+                            cart.push({ name: name, price: priceStr, amount: price, img: img, quantity: 1 });
+                        }
+                        
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        
+                        // Update cart badge
+                        updateCartBadgeNav();
+                        
+                        // Show notification that item was added with quantity
+                        showAddToCartNotification(name, finalQuantity);
+                    } catch (err) {
+                        // fallback: overwrite
+                        const newCart = [{ name: name, price: priceStr, amount: price, img: img, quantity: 1 }];
+                        localStorage.setItem('cart', JSON.stringify(newCart));
+                        updateCartBadgeNav();
+                        showAddToCartNotification(name, 1);
+                    }
+                    
+                    // Stay on shop page - no redirect, user can continue shopping
+                });
+            });
+
+            // Buy Now buttons: add the item then go directly to checkout
+            const buyNowBtns = document.querySelectorAll('.card .buy-now');
+            buyNowBtns.forEach(btn => {
+                btn.addEventListener('click', function(e){
+                    // require active session before buy now
+                    try {
+                        const sess = sessionStorage.getItem('session');
+                        if (!sess) {
+                            window.location.href = 'account.html?next=shop.html';
+                            return;
+                        }
+                    } catch (err) {
+                        if (!localStorage.getItem('user')) {
+                            window.location.href = 'account.html?next=shop.html';
+                            return;
+                        }
+                    }
+                    const card = btn.closest('.card');
+                    if (!card) return;
+                    const titleEl = card.querySelector('.title');
+                    const priceEl = card.querySelector('.price');
+                    const imgEl = card.querySelector('.img img');
+                    const name = titleEl ? titleEl.textContent.trim() : 'Item';
+                    const priceStr = priceEl ? priceEl.textContent.trim() : '$0';
+                    const price = priceEl ? parsePrice(priceEl.textContent) : 0;
+                    const img = imgEl ? (imgEl.getAttribute('src') || '') : '';
+
+                    try {
+                        const raw = localStorage.getItem('cart');
+                        const cart = raw ? JSON.parse(raw) : [];
+                        
+                        // Check if item with same name already exists
+                        const existingItemIndex = cart.findIndex(item => item.name === name);
+                        
+                        if (existingItemIndex !== -1) {
+                            // Item exists - increment quantity
+                            if (!cart[existingItemIndex].quantity) {
+                                cart[existingItemIndex].quantity = 1;
+                            }
+                            cart[existingItemIndex].quantity += 1;
+                        } else {
+                            // New item - add with quantity 1
+                            cart.push({ name: name, price: priceStr, amount: price, img: img, quantity: 1 });
+                        }
+                        
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        
+                        // Update cart badge
+                        updateCartBadgeNav();
+                    } catch (err) {
+                        const newCart = [{ name: name, price: priceStr, amount: price, img: img, quantity: 1 }];
+                        localStorage.setItem('cart', JSON.stringify(newCart));
+                        updateCartBadgeNav();
+                    }
+
+                    // Redirect straight to cart (show items) for Buy Now
+                    window.location.href = 'cart.html';
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>
